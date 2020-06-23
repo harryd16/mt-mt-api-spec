@@ -1,0 +1,14 @@
+get:
+  summary: Returns a list of MT engine ids
+  description: Returns a list of machine translation engine ids available for testing
+  responses:
+    '200':
+      description: A JSON array of engine ids
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: integer
+    default:
+      description: Unexpected error

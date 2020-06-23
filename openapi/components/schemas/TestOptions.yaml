@@ -1,0 +1,15 @@
+properties:
+  engineId:
+    type: integer
+  cases:
+    type: integer
+    minimum: 1
+    maximum: 500
+  entropy:
+    type: integer
+    minimum: 1
+    maximum: 10
+required:
+  - engineId
+  - cases
+  - entropy

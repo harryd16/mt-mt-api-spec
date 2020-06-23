@@ -1,0 +1,22 @@
+get:
+  summary: Returns test results
+  description: Returns test results given the access token provided at creation
+  parameters:
+    - in: path
+      name: accessToken
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Test'
+    '404':
+      description: >-
+        A test with the specified accessToken was not found. It may have
+        expired.
+    default:
+      description: Unexpected error

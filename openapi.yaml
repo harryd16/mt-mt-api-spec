@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: MT Metamorphic Testing API
+  description: REST API to run and retrieve Machine Translation Metamorphic Tests
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Internal development server for testing
+
+paths:
+  /test:
+    post:
+      summary: Create a new test
+      description: Create and run a new test with the required parameters
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/TestOptions'
+            examples:
+              testOptions:
+                summary: Test options request body object example
+                value: {"engineId": 0, "cases": 100, "entropy": 6}
+      responses:
+        '201':
+          description: Test created and access token returned
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+
+  /test/{accessToken}:
+    get:
+      summary: Returns test results
+      description: Returns test results given the access token provided at creation
+      parameters:
+        - in: path
+          name: accessToken
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Test'
+        '404':
+          description: A test with the specified accessToken was not found. It may have expired.
+        default:
+          description: Unexpected error
+
+  /engines:
+    get:
+      summary: Returns a list of MT engine ids
+      description: Returns a list of machine translation engine ids available for testing
+      responses:
+        '200':
+          description: A JSON array of engine ids
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+        default:
+          description: Unexpected error
+
+components:
+  schemas:
+    TestOptions:
+      properties:
+        engineId:
+          type: integer
+        cases:
+          type: integer
+          minimum: 1
+          maximum: 500
+        entropy:
+          type: integer
+          minimum: 1
+          maximum: 10
+      required:
+        - engineId
+        - cases
+        - entropy
+    Test:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        engineId:
+          type: integer
+        cases:
+          type:
+            array
+          items:
+            type: object
+            properties:
+              textIn:
+                type: string
+              textOut:
+                type: string
+              score:
+                type: integer
+              scoreNoCase:
+                type: integer
+              scoreNoPunctuation:
+                type: integer

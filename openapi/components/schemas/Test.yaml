@@ -1,0 +1,23 @@
+properties:
+  timestamp:
+    type: string
+    format: date-time
+  completed:
+    type: boolean
+  engineId:
+    type: integer
+  cases:
+    type: array
+    items:
+      type: object
+      properties:
+        textIn:
+          type: string
+        textOut:
+          type: string
+        score:
+          type: integer
+        scoreNoCase:
+          type: integer
+        scoreNoPunctuation:
+          type: integer

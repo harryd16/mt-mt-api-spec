@@ -1,0 +1,27 @@
+post:
+  summary: Create a new test
+  description: Create and run a new test with the required parameters
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TestOptions'
+        examples:
+          testOptions:
+            summary: Test options request body object example
+            value:
+              engineId: 0
+              cases: 100
+              entropy: 6
+  responses:
+    '201':
+      description: Test created and access token returned
+      content:
+        text/plain:
+          schema:
+            type: string
+    '400':
+      description: Bad request
+    default:
+      description: Unexpected error
